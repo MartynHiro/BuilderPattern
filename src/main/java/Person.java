@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Person {
     private final String name;
     private final String surname;
@@ -18,7 +20,7 @@ public class Person {
                 .setSurname(this.surname); //передаем ребенку фамилию родителя
     }
 
-    public boolean hasAddress() {
+    public boolean hasCity() {
         return !this.city.equals("город неизвестен");
     }
 
@@ -73,4 +75,46 @@ public class Person {
                 "} \n";
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 17; //стартовое значение для объектов Person
+
+        if (name != null) {
+            hash += name.hashCode();
+        }
+
+        hash *= 31; //множитель для избежания ошибок при зеркальной смене значений полей
+
+        if (surname != null) {
+            hash += surname.hashCode();
+        }
+
+        if (age == -1 && city.equals("город неизвестен")) {
+            return hash;
+        } else if (!hasAge()) {
+            return hash + city.hashCode();
+        } else if (!hasCity()) {
+            return hash + age;
+        }
+        return hash + age + city.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+
+        if (obj == null)
+            return false;
+
+        if (this.getClass() != obj.getClass())
+            return false;
+
+        Person otherPerson = (Person) obj;
+
+        return Objects.equals(name, otherPerson.getName()) &&
+                Objects.equals(surname, otherPerson.getSurname()) &&
+                age == otherPerson.getAge() &&
+                Objects.equals(city, otherPerson.getCity());
+    }
 }

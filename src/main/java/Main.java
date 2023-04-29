@@ -9,7 +9,11 @@ public class Main {
 
         Person son = mom.newChildBuilder()
                 .setName("Антошка")
+                .setAge(17)
                 .build();
+
+        son.happyBirthday();
+        son.setCity("Новосибирск");
 
         System.out.println("У " + mom + " есть сын, " + son);
 
